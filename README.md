@@ -1,3 +1,10 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\README.md
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-03-20 16:42:47
+ * @email: 2742514076@qq.com
+-->
 ## 创建vue实例
 
 **核心步骤（4步）：**
