@@ -1,0 +1,29 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\01day\vue实例化.html
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-03-20 17:00:04
+ * @email: 2742514076@qq.com
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue实例化</title>
+</head>
+<body>
+    <div id="app">
+        {{ msg }}
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        const app = new Vue({
+            el:'#app',
+            data:{
+                msg:"第一个vue实例"
+            }
+        })
+    </script>
+</body>
+</html>
