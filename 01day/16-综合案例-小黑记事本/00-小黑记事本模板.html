@@ -1,0 +1,93 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\01day\16-综合案例-小黑记事本\00-小黑记事本模板.html
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-03-22 11:19:03
+ * @email: 2742514076@qq.com
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="./css/index.css" />
+<title>记事本</title>
+</head>
+<body>
+
+<!-- 主体区域 -->
+<section id="app">
+  <!-- 输入框 -->
+  <header class="header">
+    <h1>小黑记事本</h1>
+    <input placeholder="请输入任务" class="new-todo" v-model="todo" />
+    <button class="add" @click="add">添加任务</button>
+  </header>
+  <!-- 列表区域 -->
+  <section class="main">
+    <ul class="todo-list">
+      <li class="todo" v-for="(item,index) in todoList" :key="item.id">
+        <div class="view">
+          <span class="index">{{index+1}}.</span> <label>{{item.name}}</label>
+          <button class="destroy" @click="del(item.id)"></button>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <!-- 统计和清空 -->
+  <footer class="footer" v-show="todoList.length>0">
+    <!-- 统计 -->
+    <span class="todo-count">合 计:<strong> {{todoList.length}} </strong></span>
+    <!-- 清空 -->
+    <button class="clear-completed" @click="reset()">
+      清空任务
+    </button>
+  </footer>
+</section>
+
+<!-- 底部 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+
+      todo : "",
+
+      todoList: [
+        {
+        id:1,
+        name:"唱歌"
+      },
+      {
+        id:2,
+        name:"跳舞"
+      }
+    ]
+    },
+    methods:{
+      del(id){
+        this.todoList = this.todoList.filter(item => item.id !== id)
+      },
+      add(){
+        if(this.todo.strim() === ""){
+          return  
+        }
+        this.todoList.unshift({
+          id : +new Date,
+          name : this.todo
+        });
+        this.todo = ""
+      },
+      reset(){
+      this.todoList = []
+      }
+    }
+    
+  })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\01day\09-Vue 指令-v-on-参数传递.html
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-03-22 11:19:03
+ * @email: 2742514076@qq.com
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      border: 3px solid #000000;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px;
+      width: 200px;
+    }
+    h3 {
+      margin: 10px 0 20px 0;
+    }
+    p {
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <div class="box">
+      <h3>小黑自动售货机</h3>
+      <button @click="buyCola">可乐{{cola}}元</button>
+      <button @click="buyCoffee">咖啡{{coffee}}元</button>
+    </div>
+    <p>银行卡余额：{{price}}元</p>
+  </div>
+
+  <script src="../vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        price : 1000,
+        cola : 5,
+        coffee : 10
+      },
+      methods:{
+        buyCola() {
+          // console.log("buy");
+          this.price = this.price - this.cola
+        },
+        buyCoffee() {
+          // console.log("buy");
+          this.price = this.price -this.coffee
+        }
+      }
+    })
+  </script>
+</body>
+</html>
