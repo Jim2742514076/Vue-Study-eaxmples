@@ -25,8 +25,152 @@ fn = () =>{
 //可以直接返回一个对象
 fn = (uname) => ({name:uname})
 ```
+## this指向改变
+`call`、`apply`改变函数指向，并立即执行函数
+`bind`改变函数指向，不立即执行函数
+## 数组函数
+### forEach()
+调用数组中的每个元素，并将元素返回给回调函数，`没有返回值`
+```javascript
+被遍历的数组.forEach(function(item,index){
+  函数体
+})
+```
+###  reduce()
+返回累计处理的结果，常用于数组求和，`有返回值`
+```javascript
+数组.reduce(function(上一次的值,当前值){
+        return 返回值
+},初始值)
+// 初始值为可选参数，可以省略，没有初始值是，第一个上一次的值为数组第一个值
+```
+### find()
+返回第一个找到的数组元素
+```javascript
+const arr = [
+  {name: "小米",price:1999},
+  {name: "华为", price:3999}
+]
+const mi = arr.find(function (item){
+   return item.name === "小米"
+})
+```
+### every()
+返回布尔值，所有元素均满足返回true
+```javascript
+const arr = [
+  {name: "小米",price:1999},
+  {name: "华为", price:3999}
+]
+const mi = arr.every(function (item){
+   item.price>1000
+})
+```
+### join()
+拼接数组元素
+```javascript
+const elements = ['Fire', 'Air', 'Water'];
 
+console.log(elements.join());
+// Expected output: "Fire,Air,Water"
 
+console.log(elements.join(''));
+// Expected output: "FireAirWater"
+
+console.log(elements.join('-'));
+// Expected output: "Fire-Air-Water"
+```
+
+## 字符串函数
+### split()
+返回数组
+### substring()
+`substring(indexStart, indexEnd)`
+`indexStart`
+返回子字符串中第一个要包含的字符的索引。
+
+`indexEnd` 可选
+返回子字符串中第一个要排除的字符的索引。
+截取部分字符
+```javascript
+const str = 'Mozilla';
+
+console.log(str.substring(1, 3));
+// Expected output: "oz"
+
+console.log(str.substring(2));
+// Expected output: "zilla"
+```
+### startWith()
+判断字符串以..开头，返回布尔值
+### includes()
+判断是否包含某字符串，返回布尔值
+## 构造函数
+快速创建多个类似的对象
+```javascript
+function pig(name,age,gender){
+  this.name = name,
+  this.age = age,
+  this.gender = gender
+}
+const Peiqi = new pig(Peiqi,18,male)
+```
+
+# Ajax
+## axios
+```javascript
+<script type="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+axios({
+  url: '目标资源地址',
+  // 请求方式为get时，使用params
+  params:{
+    参数名:"值"
+  }，
+  method: '请求方法',
+  // 请求方式为post时，使用params
+  data: {
+    参数名: 值
+  }
+}).then( result => {
+  // 对服务器返回的数据做后续处理
+}).catch(error => {
+  // 处理失败错误
+})
+```
+
+## form-serialize 插件
+form-serialize 插件语法：
+
+1. 引入 form-serialize 插件到自己网页中
+2. 使用 serialize 函数
+   - 参数1：要获取的 form 表单标签对象（要求表单元素需要有 name 属性-用来作为收集的数据中属性名）
+   - 参数2：配置对象
+     - hash：
+       - true - 收集出来的是一个 JS 对象结构
+       - false - 收集出来的是一个查询字符串格式
+     - empty：
+       - true - 收集空值
+       - false - 不收集空值
+```javascript
+<!-- 引入插件 -->
+<script src="./lib/form-serialize.js"></script>
+const form = document.querySelector('.login-form')
+const data = serialize(form, { hash: true, empty: true })
+console.log(data)
+// {username: 'itheima007', password: '7654321'}
+const { username, password } = data
+```
+
+### XHR
+```javascript
+const xhr = new XMLHttpRequest()
+xhr.open('请求方法', '请求url网址')
+xhr.addEventListener('loadend', () => {
+  // 响应结果
+  console.log(xhr.response)
+})
+xhr.send()
+```
 ## 创建vue实例
 
 **核心步骤（4步）：**

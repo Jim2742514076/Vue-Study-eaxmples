@@ -40,7 +40,7 @@
               <div class="td">{{item.price}}</div>
               <div class="td">
                 <div class="my-input-number">
-                  <button class="decrease" @click="item.num>0?item.num--:0"> - </button>
+                  <button :disabled="item.num===1" class="decrease" @click="item.num--" > - </button>
                   <span class="my-input__inner">{{item.num}}</span>
                   <button class="increase" @click="item.num++"> + </button>
                 </div>
@@ -122,15 +122,28 @@
           del(id){
             this.fruitList = this.fruitList.filter(item => item.id !== id)
           },
-          
+         
           
         },
         computed:{
           totalNum(){
-            return this.fruitList.reduce((sum,ele)=> sum + ele.num,0)
+             return this.fruitList.reduce((sum, item) => {
+              if(item.isChecked){
+               return sum + item.num
+              }else{
+                return sum
+              }
+             }, 0)
           },
           totalPrice(){
-            return this.fruitList.reduce((sum,ele)=> sum + ele.num*ele.price,0)
+            return this.fruitList.reduce((sum,ele)=> 
+            {
+              if(ele.isChecked){
+                return sum +  ele.num*ele.price
+              }else{
+                return sum
+              }
+            },0)
           },
           checkall :{
             get(){
@@ -138,6 +151,15 @@
             },
             set(value) {
               this.fruitList.forEach(item => item.isChecked = value)
+            }
+          }
+        },
+        watch:{
+          fruitList:{
+            deep: true, // 深度监视
+            immdiate:true,//立即执行handler函数
+            handler (newValue) {
+              localStorage.setItem("list",JSON.stringify(newValue))
             }
           }
         }
