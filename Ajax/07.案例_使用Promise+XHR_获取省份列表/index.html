@@ -1,0 +1,55 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\Ajax\07.案例_使用Promise+XHR_获取省份列表\index.html
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-03-26 14:34:16
+ * @email: 2742514076@qq.com
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>案例_使用Promise+XHR_获取省份列表</title>
+</head>
+
+<body>
+  <p class="my-p"></p>
+  <script>
+    /**
+     * 目标：使用Promise管理XHR请求省份列表
+     *  1. 创建Promise对象
+     *  2. 执行XHR异步代码，获取省份列表
+     *  3. 关联成功或失败函数，做后续处理
+    */
+    const p = new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.open('GET',"https://hmajax.itheima.net/api/province")
+      xhr.addEventListener("loadend",()=>{
+        // console.dir(xhr)
+        // 将字符串转为json数据
+        const data = JSON.parse(xhr.response)
+        // console.log(data)
+        // 监听promise状态
+        if(xhr.status>=200 && xhr.status<300){
+          resolve(data.list)
+        }else{
+          reject(new Error(xhr.response))
+        }
+      })
+      xhr.send()
+    })
+
+    p.then(result =>{
+      console.log(result)
+      document.querySelector(".my-p").innerHTML = result.join("<br>")
+    }).catch(error =>{
+      document.querySelector(".my-p").innerHTML = result.message
+
+    })
+  </script>
+</body>
+
+</html>

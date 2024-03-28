@@ -49,7 +49,7 @@
     </table>
   </div>
   <!-- 新增-弹出框 -->
-  <div id="addapp" class="modal fade add-modal">
+  <div ref="addForm" id="addapp" class="modal fade add-modal">
     <!-- 中间白色区域 -->
     <div class="modal-dialog">
       <div class="modal-content">
@@ -82,7 +82,7 @@
     </div>
   </div>
   <!-- 编辑-弹出框 -->
-  <div class="modal fade edit-modal">
+  <div ref="edit-form" class="modal fade edit-modal">
     <!-- 中间白色区域 -->
     <div class="modal-dialog">
       <div class="modal-content">
@@ -162,7 +162,8 @@
 
         },
         add(){
-          document.querySelector(".add-modal").show()
+          // document.querySelector(".add-modal").show()
+          console.log(this.$refs.addForm)
         }
       }
     })

@@ -162,6 +162,7 @@ const { username, password } = data
 ```
 
 ### XHR
+#### 数据获取
 ```javascript
 const xhr = new XMLHttpRequest()
 xhr.open('请求方法', '请求url网址')
@@ -170,6 +171,83 @@ xhr.addEventListener('loadend', () => {
   console.log(xhr.response)
 })
 xhr.send()
+```
+#### 数据提交
+1. 注意1：但是这次没有 axios 帮我们了，我们需要自己设置请求头 Content-Type：application/json，来告诉服务器端，我们发过去的内容类型是 JSON 字符串，让他转成对应数据结构取值使用
+2. 注意2：没有 axios 了，我们前端要传递的请求体数据，也没人帮我把 JS 对象转成 JSON 字符串了，需要我们自己转换
+3. 注意3：原生 XHR 需要在 send 方法调用时，传入请求体携带
+
+```javascript
+const xhr = new XMLHttpRequest()
+xhr.open('请求方法', '请求url网址')
+xhr.addEventListener('loadend', () => {
+  console.log(xhr.response)
+})
+
+// 1. 告诉服务器，我传递的内容类型，是 JSON 字符串
+xhr.setRequestHeader('Content-Type', 'application/json')
+// 2. 准备数据并转成 JSON 字符串
+const user = { username: 'itheima007', password: '7654321' }
+const userStr = JSON.stringify(user)
+// 3. 发送请求体数据
+xhr.send(userStr)
+```
+
+
+### Promise 
+`Promise`对象用于表示一个异步操作的最终完成（或失败）及其结构值
+```javascript
+// 1. 创建 Promise 对象
+const p = new Promise((resolve, reject) => {
+ // 2. 执行异步任务-并传递结果
+ // 成功调用: resolve(值) 触发 then() 执行
+ // 失败调用: reject(值) 触发 catch() 执行
+})
+// 3. 接收结果
+p.then(result => {
+ // 成功
+}).catch(error => {
+ // 失败
+})
+```
+
+### async 函数和 await
+1. 概念：在 async 函数内，使用 await 关键字取代 then 函数，等待获取 Promise 对象成功状态的结果值 
+2. 做法：使用 async 和 await 解决回调地狱问题
+
+```javascript
+/**
+ * 目标：掌握async和await语法，解决回调函数地狱
+ * 概念：在async函数内，使用await关键字，获取Promise对象"成功状态"结果值
+ * 注意：await必须用在async修饰的函数内（await会阻止"异步函数内"代码继续执行，原地等待结果）
+*/
+// 1. 定义async修饰函数
+async function getData() {
+  // 2. await等待Promise对象成功的结果
+  const pObj = await axios({url: 'http://hmajax.itheima.net/api/province'})
+  const pname = pObj.data.list[0]
+  const cObj = await axios({url: 'http://hmajax.itheima.net/api/city', params: { pname }})
+  const cname = cObj.data.list[0]
+  const aObj = await axios({url: 'http://hmajax.itheima.net/api/area', params: { pname, cname }})
+  const areaName = aObj.data.list[0]
+
+
+  document.querySelector('.province').innerHTML = pname
+  document.querySelector('.city').innerHTML = cname
+  document.querySelector('.area').innerHTML = areaName
+}
+
+getData()
+```
+### Promise.all 静态方法
+合并多个 Promise 对象，等待所有同时成功完成（或某一个失败），做后续逻辑
+```javascript
+const p = Promise.all([Promise对象, Promise对象, ...])
+p.then(result => {
+  // result 结果: [Promise对象成功结果, Promise对象成功结果, ...]
+}).catch(error => {
+  // 第一个失败的 Promise 对象，抛出的异常对象
+})
 ```
 ## 创建vue实例
 

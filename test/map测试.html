@@ -1,0 +1,25 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\test\map测试.html
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-03-28 15:58:25
+ * @email: 2742514076@qq.com
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map测试</title>
+</head>
+<body>
+    <p id="test"></p>
+    <script>
+        const lst = [{name: 'jim', gender:"male"}, {name: 'hallen', gender:"female"}]
+        newlst  = lst.map(item => {
+            return "123" + item.name
+        })
+        console.log(newlst)
+    </script>
+</body>
+</html>

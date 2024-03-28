@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Element Reference</title>
+</head>
+<body>
+  <div id="app">
+    <div ref="myElement">这是一个元素</div>
+    <button onclick="getElement()">获取元素</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      methods: {
+        getElement() {
+          const element = this.$refs.myElement;
+          console.log(element);
+        }
+      }
+    });
+    function getElement() {
+      const element = document.querySelector('[ref="myElement"]');
+      console.log(element);
+    }
+  </script>
+</body>
+</html>
