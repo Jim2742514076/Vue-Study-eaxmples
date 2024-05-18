@@ -249,6 +249,164 @@ p.then(result => {
   // 第一个失败的 Promise 对象，抛出的异常对象
 })
 ```
+
+
+## node.js
+### fs模块
+使用方法
+- 加载 fs 模块，得到 fs 对象
+```javascript
+const fs = require('fs')
+```
+- 写入文件内容语法：
+```js
+fs.writeFile('文件路径', '写入内容', err => {
+  // 写入后的回调函数
+})
+```
+- 读取文件内容
+```js
+fs.readFile('文件路径', (err, data) => {
+  // 读取后的回调函数
+  // data 是文件内容的 Buffer 数据流
+})
+```
+### 模块导出与导入
+#### **CommonJS 标准语法导出和导入**
+导出语法：
+```js
+module.exports = {
+  对外属性名: 模块内私有变量
+}
+```
+导入语法：
+```js
+const 变量名 = require('模块名或路径')
+// Node.js 环境内置模块直接写模块名（例如：fs，path，http）
+// 自定义模块：写模块文件路径（例如：./utils.js)
+```
+实例
+utils.js：导出
+```js
+/**
+ * 目标：基于 CommonJS 标准语法，封装属性和方法并导出
+ */
+const baseURL = 'http://hmajax.itheima.net'
+const getArraySum = arr => arr.reduce((sum, item) => sum += item, 0)
+
+// 导出
+module.exports = {
+  url: baseURL,
+  arraySum: getArraySum
+}
+```
+index.js：导入使用
+```js
+/**
+ * 目标：基于 CommonJS 标准语法，导入工具属性和方法使用
+ */
+// 导入
+const obj = require('./utils.js')
+console.log(obj)
+const result = obj.arraySum([5, 1, 2, 3])
+console.log(result)
+```
+#### ECMAScript 标准语法中，默认导出和导入的使用
+>使用ECMAScript 标准语法需要新建`package.json`文件，设置`{ “type”: "module" }`
+
+导出语法：
+```js
+export default {
+  对外属性名: 模块内私有变量
+}
+```
+导入语法：
+```js
+import 变量名 from '模块名或路径'
+```
+实例
+utils.js：导出
+```js
+/**
+ * 目标：基于 ECMAScript 标准语法，封装属性和方法并"默认"导出
+ */
+const baseURL = 'http://hmajax.itheima.net'
+const getArraySum = arr => arr.reduce((sum, item) => sum += item, 0)
+
+// 默认导出
+export default {
+  url: baseURL,
+  arraySum: getArraySum
+}
+```
+index.js：导入使用
+```js
+/**
+ * 目标：基于 ECMAScript 标准语法，"默认"导入，工具属性和方法使用
+ */
+// 默认导入
+import obj from './utils.js'
+console.log(obj)
+const result = obj.arraySum([10, 20, 30])
+console.log(result)
+```
+
+####  ECMAScript 标准语法中，命名导出和导入的使用
+>使用ECMAScript 标准语法需要新建`package.json`文件，设置`{ “type”: "module" }`
+
+导出语法：
+```js
+export 修饰定义语句
+```
+导入语法：
+```js
+import { 同名变量 } from '模块名或路径'
+```
+实例
+utils.js：导出
+```js
+/**
+ * 目标：基于 ECMAScript 标准语法，封装属性和方法并"命名"导出
+ */
+export const baseURL = 'http://hmajax.itheima.net'
+export const getArraySum = arr => arr.reduce((sum, item) => sum += item, 0)
+```
+index.js：导入使用
+```js
+/**
+ * 目标：基于 ECMAScript 标准语法，"命名"导入，工具属性和方法使用
+ */
+// 命名导入
+import {baseURL, getArraySum} from './utils.js'
+console.log(obj)
+console.log(baseURL)
+console.log(getArraySum)
+const result = getArraySum([10, 21, 33])
+console.log(result)
+```
+- 按需加载，使用命名导出和导入
+- 全部加载，使用默认导出和导入
+
+
+**得到需要的所有依赖软件包:**
+
+直接在项目目录下，运行终端命令：npm i 即可安装 package.json 里记录的所有包和对应版本到本项目中的 node_modules
+
+### npm全局软件包-nodemon
+使用：
+
+1. 安装：npm i nodemon -g （-g 代表安装到全局环境中）
+2. 运行：nodemon 待执行的目标 js 文件
+
+
+### Node.js 常用命令：
+```js
+执行js文件 node xxx
+初始化package.json  npm init -y
+下载本地软件包  npm i 包名
+下载全局软件包  npm i 包名 -g
+卸载本地软件包  npm uni 包名
+```
 ## 创建vue实例
 
 **核心步骤（4步）：**

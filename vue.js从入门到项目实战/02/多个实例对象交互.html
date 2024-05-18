@@ -1,0 +1,48 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\vue.js从入门到项目实战\02\多个实例对象交互.html
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-04-19 14:40:06
+ * @email: 2742514076@qq.com
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多个实例对象交互</title>
+</head>
+<body>
+ 
+    <div id="one">
+        <p>one</p>
+        <button @click="changeTwo">改变</button>
+    </div>
+    <p id="two">{{twotext}}</p>
+
+
+    <script src="../vue.js"></script>
+    <script>
+        const one = new Vue({
+            el:"#one",
+            data:{
+                
+            },
+            methods:{
+                changeTwo(){
+                    console.log("函数被触发")
+                    two.twotext  = "发生改变"
+                    
+                }
+            }
+        })
+        const two = new Vue({
+            el:"#two",
+            data:{
+                twotext : "two"
+            }
+        })
+    </script>
+
+</body>
+</html>
