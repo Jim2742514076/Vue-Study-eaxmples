@@ -1,3 +1,10 @@
+<!--
+ * @FilePath: \Vue-Study-eaxmples\vue-xlx\src\App.vue
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-05-18 21:53:19
+ * @email: 2742514076@qq.com
+-->
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
