@@ -752,3 +752,147 @@ watch: {// watch 完整写法
   }
 }
 ```
+
+## 小黑记事本实例
+>与echarts进行异步交互
+- 在`mounted()`函数中进行echarts实例化，将实例化对象设置到data中，以便在其他函数中进行调用
+- 在调用函数中进行二次配置，通常仅需要设置data的配置，其他配置在函数内部完成
+```js
+this.myChart.setOption({
+              
+      // 更新图表
+      // 数据项
+      series: [
+        { 
+          // data: this.list.map(item => ({ value: item.price, name: item.name}))
+          data: this.list.map(item => ({value: item.price, name: item.name}))
+        }
+      ]
+      })
+```
+
+```js
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    /**
+      * 接口文档地址：
+      * https://www.apifox.cn/apidoc/shared-24459455-ebb1-4fdc-8df8-0aff8dc317a8/api-53371058
+      * 
+      * 功能需求：
+      * 1. 基本渲染
+      * 2. 添加功能
+      * 3. 删除功能
+      * 4. 饼图渲染
+      */
+    const app = new Vue({
+      el: '#app',
+      data: {
+        list:[],
+        name: "",
+        price: "",
+        myChart: null,
+      },
+      methods:{
+        async getData(){
+          const res = await axios.get('https://applet-base-api-t.itheima.net/bill', {
+            params: {
+              creator: 'great'
+            }
+          })
+          this.list = res.data.data
+
+          // console.log(this.list.map(item => ({value: item.price, name: item.name})))
+          this.myChart.setOption({
+              
+              // 更新图表
+            // 数据项
+            series: [
+              { 
+                // data: this.list.map(item => ({ value: item.price, name: item.name}))
+                data: this.list.map(item => ({value: item.price, name: item.name}))
+              }
+            ]
+            })
+
+        },
+
+        async addData(){
+          if(!this.name || !this.price){
+            alert("请输入消费名称和价格")
+            return
+          }
+          const res = await axios.post("https://applet-base-api-t.itheima.net/bill",{
+            creator: "great",
+            name : this.name,
+            price : this.price
+            }
+            )     
+          this.price = ""
+          this.name = ""
+          this.getData()
+        },
+
+        async delData(id){
+          const res = await axios.delete(`https://applet-base-api-t.itheima.net/bill/${id}`)
+          this.getData()
+        },
+        initChart() {
+          const chartDom = document.querySelector("#main");
+          this.myChart = echarts.init(chartDom);
+          this.myChart.setOption({
+              title: {
+                text: '销售数据清单',
+                left: 'center'
+              },
+              tooltip: {
+                trigger: 'item'
+              },
+              legend: {
+                orient: 'vertical',
+                left: 'left'
+              },
+              series: [
+                {
+                  name: 'Access From',
+                  type: 'pie',
+                  radius: '50%',
+                  data: [
+                    
+                  ],
+                  emphasis: {
+                    itemStyle: {
+                      shadowBlur: 10,
+                      shadowOffsetX: 0,
+                      shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                  }
+                }
+              ]
+            })
+        },
+
+    
+        
+      },
+      computed:{
+          totalPrice(){
+            return this.list.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)
+          }
+      },
+      created(){
+        this.getData()
+      },
+      mounted(){
+        this.initChart();
+      }
+      })
+  </script>
+```
+
+## 脚手架Vue CLI
+1. 全局安装（只需安装一次即可） yarn global add @vue/cli 或者 npm i @vue/cli -g
+2. 查看vue/cli版本： vue --version
+3. 创建项目架子：vue create project-name(项目名不能使用中文)
+4. 启动项目：yarn serve 或者 npm run serve(命令不固定，找package.json)
