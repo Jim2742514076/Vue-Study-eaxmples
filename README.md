@@ -5,6 +5,13 @@
  * @Date: 2024-03-20 16:42:47
  * @email: 2742514076@qq.com
 -->
+<!--
+ * @FilePath: \Vue-Study-eaxmples\README.md
+ * @Software: vscode
+ * @Author: 万锦
+ * @Date: 2024-03-20 16:42:47
+ * @email: 2742514076@qq.com
+-->
 
 # js进阶
 
@@ -896,3 +903,123 @@ this.myChart.setOption({
 2. 查看vue/cli版本： vue --version
 3. 创建项目架子：vue create project-name(项目名不能使用中文)
 4. 启动项目：yarn serve 或者 npm run serve(命令不固定，找package.json)
+### 脚手架操作文件
+
+- main.js  入口文件
+- App.vue  App根组件 
+- index.html 模板文件
+
+## 普通组件局部注册
+1.特点：
+
+只能在注册的组件内使用
+
+2.步骤：
+
+1. 创建.vue文件（三个组成部分）
+2. 在使用的组件内先导入再注册，最后使用
+
+3.使用方式：
+
+当成html标签使用即可  <组件名></组件名>
+
+4.注意：
+
+组件名规范 —> 大驼峰命名法， 如 HmHeader
+5.语法
+```js
+// 导入需要注册的组件
+import 组件对象 from '.vue文件路径'
+import HmHeader from './components/HmHeader'
+
+export default {  // 局部注册
+  components: {
+   '组件名': 组件对象,
+    HmHeader:HmHeaer,
+    HmHeader
+  }
+}
+```
+
+### 全局组件注册
+1.特点：
+
+全局注册的组件，在项目的任何组件中都能使用
+
+2.步骤
+
+1. 创建.vue组件（三个组成部分）
+2. main.js中进行全局注册
+
+3.使用方式
+
+当成HTML标签直接使用
+
+<组件名></组件名>
+
+4.注意
+
+组件名规范 —> 大驼峰命名法， 如 HmHeader
+
+5.语法
+
+Vue.component('组件名', 组件对象)
+```js
+// 导入需要全局注册的组件
+import HmButton from './components/HmButton'
+Vue.component('HmButton', HmButton)
+```
+
+### scoped标注局部样式
+写在组件中的样式会 全局生效 →  因此很容易造成多个组件之间的样式冲突问题。
+
+1. 全局样式: 默认组件中的样式会作用到全局，任何一个组件中都会受到此样式的影响
+
+1. 局部样式: 可以给组件加上scoped 属性,可以让样式只作用于当前组件
+```js
+<template>
+
+</template>
+
+<script>
+export default {
+
+}
+</script>
+<style scoped>
+</style>
+```
+
+### data必须是一个函数
+保证每个组件实例，维护独立的一份数据对象。
+```js
+<template>
+  <div class="base-count">
+    <button @click="count--">-</button>
+    <span>{{ count }}</span>
+    <button @click="count++">+</button>
+  </div>
+</template>
+
+<script>
+export default {
+  data: function () {
+    return {
+      count: 100,
+    }
+  },
+}
+</script>
+
+<style>
+.base-count {
+  margin: 20px;
+}
+</style>
+```
+
+### prop
+向子组件传递数据
+特点
+1. 可以 传递 任意数量 的prop
+2. 可以 传递 任意类型 的prop
