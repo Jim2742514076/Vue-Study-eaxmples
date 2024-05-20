@@ -7,9 +7,9 @@
 -->
 <template>
     <section id="app">
-      <TodoHeader></TodoHeader>
-      <TodoMain></TodoMain>
-      <TodoFooter></TodoFooter>
+      <TodoHeader :list = "list" @addTaxt="addTaxt"></TodoHeader>
+      <TodoMain :list = "list" @delTaxt="delTaxt"></TodoMain>
+      <TodoFooter @clear="clearTaxt" :list = "list"></TodoFooter>
     </section>
     
  
@@ -36,6 +36,19 @@ export default {
       id: +new Date(),
      todoName: '',
  }
+  },
+  methods: {
+    addTaxt(val){
+        this.list.unshift({id:+new Date(), name:val})
+    },
+    delTaxt(val){
+      // console.log(val)
+      this.list = this.list.filter((item) => item.id !== val)
+    },
+    clearTaxt(){
+      // console.log("clear触发")
+      this.list = []
+    }
   }
 }
 </script>
